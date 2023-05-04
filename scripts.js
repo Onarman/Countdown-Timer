@@ -4,6 +4,7 @@ const endTime = document.querySelector(".display__end-time");
 const buttons = document.querySelectorAll(".timer__button")
 
 const timer = (seconds) => {
+	clearInterval(countdown)
 	const now =  Date.now();
 	const then = now + seconds * 1000;
 	console.log({now,then});
@@ -34,7 +35,7 @@ const displayEndTime =(timestamp) =>{
 	const hour = end.getHours();
 	const adjustedHour = hour > 12 ? hour - 12 : hour;
 	const minutes = end.getMinutes();
-	endTime.textContent = `Be Back At ${adjustedHour}:${minutes < 10 ? "0" : ""}${minutes}`;
+	endTime.textContent = `The Timer is Going to Finish At ${adjustedHour}:${minutes < 10 ? "0" : ""}${minutes}`;
 	
 }
 
@@ -44,3 +45,10 @@ function startTimer (){
 }
 
 buttons.forEach(button => button.addEventListener("click",startTimer))
+document.customForm.addEventListener("submit",function(e) {
+	e.preventDefault();
+	const mins = this.minutes.value;
+	console.log(mins);
+	timer(mins*60);
+	this.reset()
+})
