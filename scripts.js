@@ -2,6 +2,7 @@ let countdown;
 const timerDisplay = document.querySelector(".display__time-left");
 const endTime = document.querySelector(".display__end-time");
 const buttons = document.querySelectorAll(".timer__button")
+const alertSound = new Audio('./sound/alarm.mp3');
 
 const timer = (seconds) => {
 	clearInterval(countdown)
@@ -28,6 +29,10 @@ function displayTimeLeft(seconds) {
 	// console.log({minutes,reminderSeconds});
 	const display = `${minutes}:${reminderSeconds < 10 ? "0" : ""}${reminderSeconds}`
 	timerDisplay.textContent = display;
+	
+	if (seconds === 0) {
+		alertSound.play()
+	}
 }
 
 const displayEndTime =(timestamp) =>{
