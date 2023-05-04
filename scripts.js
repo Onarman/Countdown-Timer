@@ -3,6 +3,7 @@ const timerDisplay = document.querySelector(".display__time-left");
 const endTime = document.querySelector(".display__end-time");
 const buttons = document.querySelectorAll(".timer__button")
 const alertSound = new Audio('./sound/alarm.mp3');
+const stopButton = document.querySelector(".stop-button")
 
 const timer = (seconds) => {
 	clearInterval(countdown)
@@ -13,12 +14,13 @@ const timer = (seconds) => {
 	displayEndTime(then);
 
 	countdown = setInterval(()=>{
-		const secondsLeft = Math.round((then - Date.now())/1000);
+		const secondsLeft = Math.round((then - Date.now()) / 1000);
 		if(secondsLeft < 0){
+			// Show the stop button when the alarm goes off
+			stopButton.style.display = "block";
 			clearInterval(countdown);
 			return;
 		}
-
 		displayTimeLeft(secondsLeft)
 	},1000)
 }
@@ -49,6 +51,21 @@ function startTimer (){
 	timer(seconds)
 }
 
+function stopAlarm(){
+	clearInterval(countdown)
+	alertSound.pause();
+	alertSound.currentTime = 0;
+	stopButton.style.display= "none";
+	timerDisplay.textContent = "";
+	endTime.textContent = ""
+
+	timerDisplay.textContent = 'Time is up!';
+  setTimeout(() => {
+    timerDisplay.textContent = '';
+  }, 3000);
+}
+
+stopButton.addEventListener("click", stopAlarm)
 buttons.forEach(button => button.addEventListener("click",startTimer))
 document.customForm.addEventListener("submit",function(e) {
 	e.preventDefault();
